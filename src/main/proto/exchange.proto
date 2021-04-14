@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.task.betpawa_proto";
+
+
+message Request {
+    int64 userID = 1;
+    string amount = 2;
+    CURRENCY currency = 3;
+}
+
+
+message Response{
+    STATUS status = 1;
+    string statusMessage = 2;
+    OPERATION operation = 3;
+}
+
+enum STATUS {
+    TRANSACTION_SUCCESS = 0;
+    TRANSACTION_FAILED =1;
+}
+
+enum OPERATION{
+    DEPOSIT = 0;
+    WITHDRAW = 1;
+    BALANCE = 2;
+}
+
+enum CURRENCY {
+    USD = 0;
+    GBP = 1;
+    EUR = 2;
+
+}
+
+enum StatusMessage{
+    USER_DOES_NOT_EXIST = 0;
+    INVALID_INPUTS = 1;
+    INSUFFICIENT_BALANCE = 2;
+    AMOUNT_MUST_BE_GREATER_THAN_ZERO = 3;
+    INVALID_CURRENCY = 4;
+}
+
+
+service OperationService {
+    rpc deposit(Request) returns (Response) {}
+    rpc withdraw(Request) returns (Response) {}
+    rpc balance(Request) returns (Response) {}
+}
